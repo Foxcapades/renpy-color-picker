@@ -1,4 +1,3 @@
-from fox_color_ren import FoxHSV, FoxColor
 from displayable_ren import ColorPicker
 
 """renpy
