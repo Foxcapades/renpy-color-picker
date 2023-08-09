@@ -1,5 +1,3 @@
-import renpy  # type: ignore
-from renpy import Text  # type: ignore
 from fox_color_ren import FoxHSV, FoxColor
 from displayable_ren import ColorPicker
 
