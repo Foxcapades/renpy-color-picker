@@ -1,8 +1,9 @@
 from renpy import At, Fixed, Image, InputValue, Transform  # type: ignore
 import renpy  # type: ignore
 from transforms import _color_picker_square  # type: ignore
+from fox_requirement_ren import fox_require_str
 from fox_hex_utils_ren import fox_hex_is_valid
-from fox_color_ren import FoxHSV, hex_to_fox_rgb
+from fox_color_ren import FoxColor, FoxHSV, hex_to_fox_rgb
 
 """renpy
 init python:
@@ -13,15 +14,19 @@ import pygame
 
 class ColorPicker(renpy.Displayable):
 
-    WHITE = FoxHSV.white()
-    BLACK = FoxHSV.black()
-    RED = FoxHSV(0, 1.0, 1.0)
+    WHITE  = FoxHSV.white()
+    BLACK  = FoxHSV.black()
+    RED    = FoxHSV(0, 1.0, 1.0)
     SELECT = Image("lib/fxcpds/color_picker/selector.png")
 
     def __init__(self, width: int, height: int, **kwargs) -> None:
         super(ColorPicker, self).__init__(**kwargs)
 
-        self.color = self.RED.clone()
+        self._color = self.RED.clone()
+
+        self.hsl = self.RED.to_hsl()
+        self.hsv = self.RED.clone()
+        self.rgb = self.RED.to_rgb()
 
         self._width = width
         self._height = height
@@ -29,11 +34,22 @@ class ColorPicker(renpy.Displayable):
         self._dragged = False
 
     @property
+    def color(self) -> FoxColor:
+        return self._color
+
+    def set_color(self, color: FoxColor) -> None:
+        self._color = color
+        self.hsl = color.to_hsl()
+        self.hsv = color.to_hsv()
+        self.rgb = color.to_rgb()
+
+    @property
     def rotation(self) -> int:
-        return self.color.hue
+        return self._color.hsv[0]
 
     def set_rotation(self, rotation: int) -> None:
-        self.color.set_hue(rotation)
+        self.hsv.set_hue(rotation)
+        self.set_color(self.hsv)
         renpy.restart_interaction()
 
     def render(self, width, height, st, at) -> renpy.Render:
@@ -42,8 +58,8 @@ class ColorPicker(renpy.Displayable):
         select = Transform(
             self.SELECT,
             anchor=(0.5, 0.5),
-            xpos=self.color.saturation,
-            ypos=1.0 - self.color.value,
+            xpos=self.hsv.saturation,
+            ypos=1.0 - self.hsv.value,
         )
 
         pane = Fixed(picker, select, xysize=(self._width, self._height))
@@ -67,13 +83,14 @@ class ColorPicker(renpy.Displayable):
         # mouse cursor if it is within the square.
         if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1 and in_square:
             self._dragged = True
-            self.color.set_saturation(self._clamp(x_percent))
-            self.color.set_value(self._clamp(y_percent))
+            self.hsv.set_saturation(self._clamp(x_percent))
+            self.hsv.set_value(self._clamp(y_percent))
         elif ev.type == pygame.MOUSEMOTION and self._dragged:
-            self.color.set_saturation(self._clamp(x_percent))
-            self.color.set_value(self._clamp(y_percent))
+            self.hsv.set_saturation(self._clamp(x_percent))
+            self.hsv.set_value(self._clamp(y_percent))
         elif ev.type == pygame.MOUSEBUTTONUP and ev.button == 1:
             self._dragged = False
+            self.set_color(self.hsv)
             renpy.restart_interaction()
 
         return None
@@ -82,7 +99,7 @@ class ColorPicker(renpy.Displayable):
         return [self.SELECT]
 
     def update_position(self):
-        h, s, v = self.color.hsv
+        h, s, v = self._color.hsv
         self.rotation = h
         self._xpos = s
         self._ypos = 1.0 - v
@@ -101,11 +118,11 @@ class HexInputValue(InputValue):
     def __init__(self, picker: ColorPicker):
         self.default = False
         self._picker = picker
-        self._last   = picker.color.hex[1:]
+        self._last   = picker._color.hex[1:]
         self._value  = self._last
 
     def get_text(self) -> str:
-        hex = self._picker.color.hex[1:]
+        hex = self._picker._color.hex[1:]
 
         if hex == self._last:
             return self._value
@@ -118,6 +135,18 @@ class HexInputValue(InputValue):
             self._value = text
 
             if len(text) == 6:
-                self._picker.color = hex_to_fox_rgb('#' + text).to_hsv()
+                self._picker.set_color(hex_to_fox_rgb('#' + text))
 
         renpy.restart_interaction()
+
+
+class StringContainer(object):
+    def __init__(self, value: str) -> None:
+        self._value = value
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    def set_value(self, value: str) -> None:
+        self._value = fox_require_str("value", value)

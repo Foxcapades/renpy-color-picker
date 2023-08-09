@@ -378,7 +378,7 @@ class FoxColor(object):
         else:
             raise Exception(
                 f'{name} must be a percent value between 0.0 and 1.0'
-                ' (inclusive)'
+                f' (inclusive), got {percent}'
             )
 
 
@@ -426,8 +426,8 @@ class FoxHSL(FoxColor):
         """
         super().__init__(alpha)
         self._h = self._fix_hue(hue)
-        self._s = self._require_percent('saturation', saturation)
-        self._l = self._require_percent('lightness', lightness)
+        self._s = self._clamp_percent(saturation)
+        self._l = self._clamp_percent(lightness)
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, FoxHSL)
@@ -715,8 +715,9 @@ class FoxHSL(FoxColor):
     # INTERNALS ################################################################
 
     def _to_hsv(self):
-        v = self._s * min(self._l, 1 - self._l) + self._l
-        return self._h, 2 - 2 * self._l / v if v else 0.0, v
+        v = self._clamp_percent(self._s * min(self._l, 1 - self._l) + self._l)
+        s = self._clamp_percent(2 - 2 * self._l / v if v else 0.0)
+        return self._h, s, v
 
     def _to_rgb(self):
         if self._s == 0:
@@ -821,8 +822,8 @@ class FoxHSV(FoxColor):
         """
         super().__init__(alpha)
         self._h = self._fix_hue(hue)
-        self._s = self._require_percent('saturation', saturation)
-        self._v = self._require_percent('value', value)
+        self._s = self._clamp_percent(saturation)
+        self._v = self._clamp_percent(value)
 
     def __eq__(self, other) -> bool:
         return (
@@ -1112,9 +1113,10 @@ class FoxHSV(FoxColor):
     # Internals ################################################################
 
     def _to_hsl(self) -> tuple[int, float, float]:
-        l = self._v - self._v * self._s / 2
+        l = self._clamp_percent(self._v - self._v * self._s / 2)
         m = min(l, 1 - l)
-        return self._h, (self._v - l) / m if m else 0.0, l
+        s = self._clamp_percent((self._v - l) / m if m else 0.0)
+        return self._h, s, l
 
     def _to_rgb(self) -> tuple[int, int, int]:
         def f(n):
