@@ -28,7 +28,7 @@ class ColorPicker(renpy.Displayable):
         shader transform.
     SELECT : Image
         Selector image.
-    HI_SPD : float
+    SPEED : float
         High speed rerender interval in seconds.
     LO_SPD : float
         Low speed rerender interval in seconds.
@@ -47,8 +47,7 @@ class ColorPicker(renpy.Displayable):
     BLACK  = FoxHSV.black()
     RED    = FoxHSV(0, 1.0, 1.0)
     SELECT = Image("lib/fxcpds/color_picker/selector.png")
-    HI_SPD = 0.01
-    LO_SPD = 0.2
+    SPEED  = 0.01
 
     def __init__(
         self,
@@ -175,13 +174,7 @@ class ColorPicker(renpy.Displayable):
         # Put that render into our view.
         view.blit(rend, (0, 0))
 
-        # Tell renpy we want to redraw p quickly if we are dragging or the mouse
-        # is over the picker square, otherwise be nice and don't waste too many
-        # renders.
-        if self._dragged or self._mouse_over:
-            renpy.redraw(self, self.HI_SPD)
-        else:
-            renpy.redraw(self, self.LO_SPD)
+        renpy.redraw(self, self.SPEED)
 
         return view
 
