@@ -1,5 +1,5 @@
 import renpy  # type: ignore
-from displayable_ren import ColorPicker
+from classes_ren import ColorPicker
 
 """renpy
 init -2 python:
