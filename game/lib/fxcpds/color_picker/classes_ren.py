@@ -71,13 +71,11 @@ class ColorPicker(renpy.Displayable):
 
         start = start.clone()
 
-
-        self.hsl = self.RED.to_hsl()
-        self.hsv = self.RED.clone()
-        self.rgb = self.RED.to_rgb()
+        self.hsl = start.to_hsl()
+        self.hsv = start.to_hsv()
+        self.rgb = start.to_rgb()
 
         self._color = self.hsv
-
         self._width = width
         self._height = height
         self._picker = Transform('#fff', xysize=(width, height))

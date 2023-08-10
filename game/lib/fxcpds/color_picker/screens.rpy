@@ -1,12 +1,14 @@
 transform _color_picker_slider:
     shader "fxcpds.slider"
 
+
 transform _color_picker_square(tr):
     shader "fxcpds.color_block"
     u_top_right_rgb _color_picker_normalize_rgb(tr.rgb)
 
-screen color_picker:
-    default picker = ColorPicker(400, 400)
+
+screen color_picker(initial_color = FoxHSV(0, 1.0, 1.0)):
+    default picker = ColorPicker(400, 400, initial_color)
 
     frame:
         style "_color_picker_background_overlay"
@@ -20,7 +22,7 @@ screen color_picker:
 
             hbox:
                 use _color_picker_left_pane(picker)
-                use _color_picker_right_pane(picker)_
+                use _color_picker_right_pane(picker)
 
 
 screen _color_picker_left_pane(picker):
