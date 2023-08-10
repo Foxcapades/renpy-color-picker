@@ -10,7 +10,7 @@
 ##
 
 style _color_picker_tab_bar:
-    background "black"
+    background "#111111"
     xsize 300
 
 ##
@@ -29,7 +29,7 @@ style _color_picker_tab_button:
 
 style _color_picker_tab_button_idle:
     is _color_picker_tab_button
-    background "black"
+    background "#222222"
 
 style _color_picker_tab_button_idle_text:
     is _color_picker_tab_text
@@ -37,7 +37,7 @@ style _color_picker_tab_button_idle_text:
 
 style _color_picker_tab_button_selected:
     is _color_picker_tab_button
-    background "#333333"
+    background "#444444"
 
 style _color_picker_tab_button_selected_text:
     is _color_picker_tab_text
@@ -109,7 +109,7 @@ style _color_picker_right_pane:
     xsize 300
 
 style _color_picker_right_pane_body:
-    background "#333333"
+    background "#444444"
     padding (0, 5, 5, 5)
 
 style _color_picker_bar_title:
@@ -138,5 +138,5 @@ style _color_picker_done_button_text:
 
 
 style _color_picker_left_pane:
-    background "#333333"
+    background "#444444"
     padding (5, 5)
