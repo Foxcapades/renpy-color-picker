@@ -28,10 +28,8 @@ class ColorPicker(renpy.Displayable):
         shader transform.
     SELECT : Image
         Selector image.
-    SPEED : float
+    HI_SPD : float
         High speed rerender interval in seconds.
-    LO_SPD : float
-        Low speed rerender interval in seconds.
 
     Instance Properties
     -------------------
@@ -47,7 +45,7 @@ class ColorPicker(renpy.Displayable):
     BLACK  = FoxHSV.black()
     RED    = FoxHSV(0, 1.0, 1.0)
     SELECT = Image("lib/fxcpds/color_picker/selector.png")
-    SPEED  = 0.01
+    HI_SPD = 0.01
 
     def __init__(
         self,
@@ -80,7 +78,8 @@ class ColorPicker(renpy.Displayable):
         self._picker = Transform('#fff', xysize=(width, height))
 
         self._dragged = False
-        self._mouse_over = False
+
+        self._last_updated = 0.0
 
     @property
     def color(self) -> FoxColor:
@@ -122,17 +121,19 @@ class ColorPicker(renpy.Displayable):
 
         # If the x and y percents are in the 0-1 range, then the mouse cursor is
         # in the picker square
-        self._mouse_over = 0.0 <= x_percent <= 1.0 and 0.0 <= y_percent <= 1.0
+        hovered = 0.0 <= x_percent <= 1.0 and 0.0 <= y_percent <= 1.0
 
         # Flip the y percent to use it as the raw HSV color value
         y_percent = 1.0 - y_percent
 
         # If the user has clicked down the primary mouse button while the mouse
         # cursor is in the picker square.
-        if click and self._mouse_over:
+        if click and hovered:
             self._dragged = True
             self.hsv.set_saturation(self._clamp(x_percent))
             self.hsv.set_value(self._clamp(y_percent))
+            self.set_color(self.hsv)
+            renpy.restart_interaction()
 
         # If the mouse is still clicked and is being moved, or "dragged" around
         # the screen.
@@ -141,6 +142,11 @@ class ColorPicker(renpy.Displayable):
             # UX gets weird around the edges otherwise.
             self.hsv.set_saturation(self._clamp(x_percent))
             self.hsv.set_value(self._clamp(y_percent))
+
+            if st - self._last_updated >= self.HI_SPD:
+                self._last_updated = st
+                self.set_color(self.hsv)
+                renpy.restart_interaction()
 
         # If the mouse button was just released, end the dragging and set the
         # final color selection.
@@ -174,7 +180,7 @@ class ColorPicker(renpy.Displayable):
         # Put that render into our view.
         view.blit(rend, (0, 0))
 
-        renpy.redraw(self, self.SPEED)
+        renpy.redraw(self, self.HI_SPD)
 
         return view
 
