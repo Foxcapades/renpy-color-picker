@@ -55,7 +55,7 @@ $(PROJECT_ZIP): clean
 	@mkdir -p $(BUILD_DIR)
 	@cp license color-picker-license
 	@cp docs/color-picker-readme-project.txt color-picker-readme.txt
-	@zip -q9r $(PROJECT_ZIP) game color-picker-license color-picker-readme.txt
+	@zip -q9r $(PROJECT_ZIP) game color-picker-license color-picker-readme.txt -x game/saves/**\* -x game/cache/**\*
 	@rm color-picker-license color-picker-readme.txt
 
 
