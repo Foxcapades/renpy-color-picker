@@ -20,7 +20,8 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    call screen color_picker
+    while True:
+        call screen fox_color_picker
 
     # These display lines of dialogue.
 

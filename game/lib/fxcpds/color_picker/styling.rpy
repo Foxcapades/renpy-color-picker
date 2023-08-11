@@ -1,142 +1,93 @@
-## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-##                                                                            ##
-##    Tab Bar Style                                                           ##
-##                                                                            ##
-## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+define gui.color_picker.bg_muted = '#111111'
+define gui.color_picker.bg_normal = '#222222'
 
+define gui.color_picker.text_color_muted = gui.interface_text_color + '7F'
+define gui.color_picker.text_color_normal = gui.interface_text_color
 
-##
-## Tab bar HBox.
-##
+define gui.color_picker.text_input_background = '#ffffff'
+define gui.color_picker.text_input_text_color = gui.accent_color
 
-style _color_picker_tab_bar:
-    background "#111111"
-    xsize 300
+define gui.color_picker.tab_marker_muted = gui.hover_muted_color
+define gui.color_picker.tab_marker_normal = gui.accent_color
 
-##
-## Tab button text.
-##
-
-style _color_picker_tab_text:
-    size 32
-
-##
-## Tab body.
-##
-
-style _color_picker_tab_button:
-    padding (10, 3)
-
-style _color_picker_tab_button_idle:
-    is _color_picker_tab_button
-    background "#222222"
-
-style _color_picker_tab_button_idle_text:
-    is _color_picker_tab_text
-    color gui.idle_color
-
-style _color_picker_tab_button_selected:
-    is _color_picker_tab_button
-    background "#444444"
-
-style _color_picker_tab_button_selected_text:
-    is _color_picker_tab_text
-    color gui.selected_color
-
-##
-## Color bar at the top of the tabs.
-##
-
-style _color_picker_tab_top:
-    padding (10, 0)
-    ysize 5
-
-style _color_picker_tab_top_idle:
-    is _color_picker_tab_top
-    background gui.muted_color
-
-style _color_picker_tab_top_idle_text:
-    is _color_picker_tab_text
-
-style _color_picker_tab_top_selected:
-    is _color_picker_tab_top
-    background gui.accent_color
-
-style _color_picker_tab_top_selected_text:
-    is _color_picker_tab_text
+define gui.color_picker.coverall_color = '#ffffff7f'
 
 
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-##                                                                            ##
-##    Miscellaneous Styles                                                    ##
-##                                                                            ##
+##
+##    Color Picker Main Pane
+##
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-
-# Coverall overlay.
-style _color_picker_background_overlay:
-    background "#0000007f"
-
-# Color picker overall body frame.
-style _color_picker_pane:
+style _fox_color_picker_body:
+    xcenter 0.5
+    ycenter 0.5
     background None
 
+style _fox_color_picker_picker_body:
+    padding (10, 10, 5, 10)
+    background gui.color_picker.bg_normal
+
+style _fox_color_picker_slider_body:
+    padding (5, 10, 10, 10)
+    xsize 410
+    ysize 420
+    background gui.color_picker.bg_normal
+
 
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-##                                                                            ##
-##    Hex Input                                                               ##
-##                                                                            ##
+##
+##    Color Picker Tabs
+##
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
 
-style _color_picker_hex_button:
-    background '#fff'
-    xsize 150
+style _fox_color_picker_tab:
+    padding (12, 5)
 
-style _color_picker_hex_input:
-    color gui.accent_color
+style _fox_color_picker_tab_idle:
+    is _fox_color_picker_tab
+    background gui.color_picker.bg_muted
+
+style _fox_color_picker_tab_selected:
+    is _fox_color_picker_tab
+    background gui.color_picker.bg_normal
+
+style _fox_color_picker_tab_text:
     size 32
 
+style _fox_color_picker_tab_text_idle:
+    is _fox_color_picker_tab_text
+    color gui.color_picker.text_color_muted
+
+style _fox_color_picker_tab_text_selected:
+    is _fox_color_picker_tab_text
+    color gui.color_picker.text_color_normal
+
+style _fox_color_picker_tab_marker:
+    padding (12, 0)
+    ysize 5
+
+style _fox_color_picker_tab_marker_idle:
+    is _fox_color_picker_tab_marker
+    background gui.color_picker.tab_marker_muted
+
+style _fox_color_picker_tab_marker_selected:
+    is _fox_color_picker_tab_marker
+    background gui.color_picker.tab_marker_normal
+
 
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-##                                                                            ##
-##    Righthand Side                                                          ##
-##                                                                            ##
+##
+##    Color Hex Input
+##
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
+style _fox_color_picker_hex_input_button:
+    ycenter 0.5
+    background gui.color_picker.text_input_background
+    xsize 155
 
-style _color_picker_right_pane:
-    xsize 300
-
-style _color_picker_right_pane_body:
-    background "#444444"
-    padding (0, 5, 5, 5)
-
-style _color_picker_bar_title:
+style _fox_color_picker_hex_input_input:
+    color gui.color_picker.text_input_text_color
     size 32
-
-style _color_picker_right_pane_footer:
-    ysize 83
-    xsize 295
-
-style _color_picker_done_button:
-    xanchor 1.0
-    xpos 1.0
-    yanchor 1.0
-    ypos 1.0
-
-style _color_picker_done_button_text:
-    color gui.idle_color
-    hover_color gui.hover_color
-
-
-## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-##                                                                            ##
-##    Lefthand Side                                                           ##
-##                                                                            ##
-## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
-
-style _color_picker_left_pane:
-    background "#444444"
-    padding (5, 5)

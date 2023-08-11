@@ -133,6 +133,8 @@ class ColorPicker(renpy.Displayable):
             self._dragged = True
             self.hsv.set_saturation(self._clamp(x_percent))
             self.hsv.set_value(self._clamp(y_percent))
+            self.set_color(self.hsv)
+            renpy.restart_interaction()
 
         # If the mouse is still clicked and is being moved, or "dragged" around
         # the screen.
@@ -141,6 +143,8 @@ class ColorPicker(renpy.Displayable):
             # UX gets weird around the edges otherwise.
             self.hsv.set_saturation(self._clamp(x_percent))
             self.hsv.set_value(self._clamp(y_percent))
+            self.set_color(self.hsv)
+            renpy.restart_interaction()
 
         # If the mouse button was just released, end the dragging and set the
         # final color selection.
