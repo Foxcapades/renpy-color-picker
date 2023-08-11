@@ -7,8 +7,8 @@ transform _color_picker_square(tr):
     u_top_right_rgb _color_picker_normalize_rgb(tr.rgb)
 
 
-screen fox_color_picker(initial_color = FoxHSV(0, 1.0, 1.0)):
-    default picker = ColorPicker(400, 400, initial_color)
+screen color_picker(initial_color = FoxHSV(0, 1.0, 1.0)):
+    default picker = ColorPicker(400, 400, initial_color if isinstance(initial_color, FoxColor) else hex_to_fox_rgb(initial_color))
 
     frame:
         background gui.color_picker.coverall_color
@@ -62,6 +62,7 @@ screen _fox_color_picker_picker_body(picker):
                 thumb Transform("lib/fxcpds/color_picker/slider.png")
                 thumb_offset 4
                 changed picker.set_rotation
+
 
 screen _fox_color_picker_slider_tabs(selected_tab):
     hbox:

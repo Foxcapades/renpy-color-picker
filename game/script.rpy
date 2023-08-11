@@ -1,34 +1,25 @@
-﻿# The script of the game goes in this file.
+﻿init python:
 
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
+    def bg_callback(st, at):
+        return (Solid(bg_color), None)
 
-define e = Character("Eileen")
+image bg solid = DynamicDisplayable(bg_callback)
 
+default bg_color = "#9cb9cb"
 
-# The game starts here.
+define e = Character("Eileen", who_prefix="{color=[bg_color]}", who_suffix="{/color}")
 
 label start:
 
-    # Show a background. This uses a placeholder by default, but you can
-    # add a file (named either "bg room.png" or "bg room.jpg") to the
-    # images directory to show it.
-
-    scene bg room
-
-    # This shows a character sprite. A placeholder is used, but you can
-    # replace it by adding a file named "eileen happy.png" to the images
-    # directory.
+    scene bg solid
 
     while True:
-        call screen fox_color_picker
+        e "Pick a color."
 
-    # These display lines of dialogue.
+        window hide
+        $ bg_color = renpy.call_screen("color_picker", bg_color)
+        window show
 
-    e "You've created a new Ren'Py game."
-
-    e "Once you add a story, pictures, and music, you can release it to the world!"
-
-    # This ends the game.
+        e "You selected the color {color=[bg_color]}[bg_color]{/color}"
 
     return
