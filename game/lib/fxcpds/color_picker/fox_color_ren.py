@@ -19,10 +19,10 @@
 # SOFTWARE.
 
 # From: https://github.com/Foxcapades/renpy-util-colors
-# Version: 1.2.0
+# Version: 1.3.0
 
-from fox_hex_utils_ren import fox_hex_to_ubytes, fox_ubytes_to_hex
-from fox_requirement_ren import fox_require_str
+from fox_hex_utils_ren import FoxHex
+from fox_requirement_ren import FoxRequire
 from renpy import Color  # type: ignore
 
 """renpy
@@ -122,10 +122,10 @@ class FoxColor(object):
         :return: A hex color string representation of this color.
         """
         if self._a >= 1.0 or not include_alpha:
-            return fox_ubytes_to_hex(self.rgb, '#')
+            return FoxHex.ubytes_to_hex(self.rgb, '#')
         else:
             r, g, b, a = self.rgba
-            return fox_ubytes_to_hex((r, g, b, int(a * 255)), '#')
+            return FoxHex.ubytes_to_hex((r, g, b, int(a * 255)), '#')
 
     #  ALPHA  ##################################################################
 
@@ -1567,7 +1567,7 @@ def hex_to_fox_rgb(rgb_hex: str) -> FoxRGB:
 
     :return: A FoxRGB instance parsed from the given hex color string.
     """
-    fox_require_str('hex', rgb_hex)
+    FoxRequire.require_str('hex', rgb_hex)
 
     if not rgb_hex.startswith('#'):
         raise Exception(
@@ -1589,7 +1589,7 @@ def hex_to_fox_rgb(rgb_hex: str) -> FoxRGB:
             ' 3, 4, 6, or 8 hex characters'
         )
 
-    bytes = fox_hex_to_ubytes(rgb_hex)
+    bytes = FoxHex.hex_to_ubytes(rgb_hex)
 
     l = len(bytes)
 

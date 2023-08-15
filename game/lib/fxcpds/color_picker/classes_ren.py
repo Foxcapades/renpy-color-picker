@@ -1,7 +1,7 @@
 from renpy import At, Fixed, Image, InputValue, Transform  # type: ignore
 import renpy  # type: ignore
-from fox_requirement_ren import fox_require_str
-from fox_hex_utils_ren import fox_hex_is_valid
+from fox_requirement_ren import FoxRequire
+from fox_hex_utils_ren import FoxHex
 from fox_color_ren import FoxColor, FoxHSV, hex_to_fox_rgb
 from screens import _color_picker_square  # type: ignore
 
@@ -220,8 +220,9 @@ class HexInputValue(InputValue):
             return hex
 
     def set_text(self, text: str):
-        if fox_hex_is_valid(text):
+        if FoxHex.hex_is_valid(text):
             self._value = text
+        renpy.restart_interaction()
 
     def enter(self):
         l = len(self._value)
@@ -241,4 +242,4 @@ class StringContainer(object):
         return self._value
 
     def set_value(self, value: str) -> None:
-        self._value = fox_require_str("value", value)
+        self._value = FoxRequire.require_str("value", value)
