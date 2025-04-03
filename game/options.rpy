@@ -25,12 +25,10 @@ define gui.show_name = True
 
 define config.version = "1.1.0"
 
+## Text that is placed on the game's about screen. To insert a blank line
+## between paragraphs, write \n\n.
 
-## Text that is placed on the game's about screen. Place the text between the
-## triple-quotes, and leave a blank line between paragraphs.
-
-define gui.about = _p("""
-""")
+define gui.about = _("")
 
 
 ## A short name for the game used for executables and directories in the built
@@ -42,9 +40,8 @@ define build.name = "lib-color-picker"
 
 ## Sounds and music ############################################################
 
-## These three variables control, among other things, which mixers are shown
-## to the player by default. Setting one of these to False will hide the
-## appropriate mixer.
+## These three variables control which mixers are shown to the player by
+## default. Setting one of these to False will hide the appropriate mixer.
 
 define config.has_sound = True
 define config.has_music = True
@@ -75,11 +72,6 @@ define config.has_voice = True
 
 define config.enter_transition = dissolve
 define config.exit_transition = dissolve
-
-
-## Between screens of the game menu.
-
-define config.intra_transition = dissolve
 
 
 ## A transition that is used after a game has been loaded.
@@ -159,6 +151,11 @@ define config.window_icon = "gui/window_icon.png"
 
 init python:
 
+    ## Add SDK Fonts.
+    config.searchpath.append(config.renpy_base + "/sdk-fonts")
+    build.classify_renpy("sdk-fonts/**", "all")
+    build._sdk_fonts = True
+
     ## The following functions take file patterns. File patterns are case-
     ## insensitive, and matched against the path relative to the base directory,
     ## with and without a leading /. If multiple patterns match, the first is
@@ -197,10 +194,9 @@ init python:
     build.documentation('*.html')
     build.documentation('*.txt')
 
-
-## A Google Play license key is required to perform in-app purchases. It can be
-## found in the Google Play developer console, under "Monetize" > "Monetization
-## Setup" > "Licensing".
+## A Google Play license key is required to download expansion files and perform
+## in-app purchases. It can be found on the "Services & APIs" page of the Google
+## Play developer console.
 
 # define build.google_play_key = "..."
 
@@ -209,3 +205,23 @@ init python:
 ## by a slash.
 
 # define build.itch_project = "renpytom/test-project"
+
+
+init python hide:
+    import datetime
+
+    today = datetime.date.today()
+    if (today.month == 3) and (today.day == 19):
+
+        # A cat, not a mouse.
+        config.mouse = { 'default' : [
+            ("gui/mouse0.png", 0, 0),
+            ("gui/mouse1.png", 0, 0),
+            ("gui/mouse2.png", 0, 0),
+            ("gui/mouse1.png", 0, 0),
+        ] * 2 + [
+            ("gui/mouse0.png", 0, 0),
+        ] * (10 * 20)
+}
+
+define config.defer_tl_scripts = True

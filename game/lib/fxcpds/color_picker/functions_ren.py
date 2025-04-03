@@ -1,9 +1,11 @@
-import renpy  # type: ignore
 from classes_ren import ColorPicker
+import renpy  # type: ignore
 
 """renpy
 init -2 python:
 """
+
+import typing
 
 def _color_picker_preview_cb(st: float, at: float, picker: ColorPicker):
     return (picker.color.hex, 0.01)
@@ -29,7 +31,7 @@ def _color_picker_rgb_bar_setter(picker: ColorPicker, channel: str):
     return setter
 
 def _color_picker_hsv_bar_setter(picker: ColorPicker, channel: str):
-    def setter(value: int | float):
+    def setter(value: typing.Union[int, float]):
         if channel == 'h':
             picker.hsv.set_hue(value)
         elif channel == 's':
@@ -45,7 +47,7 @@ def _color_picker_hsv_bar_setter(picker: ColorPicker, channel: str):
     return setter
 
 def _color_picker_hsl_bar_setter(picker: ColorPicker, channel: str):
-    def setter(value: int | float):
+    def setter(value: typing.Union[int, float]):
         if channel == 'h':
             picker.hsl.set_hue(value)
         elif channel == 's':

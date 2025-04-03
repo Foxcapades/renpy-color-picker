@@ -6,7 +6,7 @@ from fox_color_ren import FoxColor, FoxHSV, hex_to_fox_rgb
 from screens import _color_picker_square  # type: ignore
 
 """renpy
-init python:
+init -3 python:
 """
 
 import pygame

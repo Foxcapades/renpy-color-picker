@@ -25,11 +25,13 @@
 init -25 python:
 """
 
+import typing
+
 
 class FoxRequire(object):
 
     @staticmethod
-    def enforce_int(name: str, value: int | float) -> int:
+    def enforce_int(name: str, value: typing.Union[int, float]) -> int:
         """
         Enforce Int
 
@@ -42,7 +44,7 @@ class FoxRequire(object):
         name : str
             Name of the value being tested.  This name is used in the exception if
             it is raised.
-        value : int | float
+        value : typing.Union[int, float]
             Value that must be or will be converted to an int.
 
         Returns

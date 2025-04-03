@@ -26,9 +26,10 @@ from fox_requirement_ren import FoxRequire
 from renpy import Color  # type: ignore
 
 """renpy
-init -2 python:
+init -4 python:
 """
 
+import typing
 
 ################################################################################
 #
@@ -363,11 +364,11 @@ class FoxColor(object):
             return value
 
     @staticmethod
-    def _interpolate(x: int | float, y: int | float, z: float) -> int | float:
+    def _interpolate(x: typing.Union[int, float], y: typing.Union[int, float], z: float) -> typing.Union[int, float]:
         return type(x)(x + (y - x) * z)
 
     @staticmethod
-    def _require_numeric(name: str, value: int | float):
+    def _require_numeric(name: str, value: typing.Union[int, float]):
         if not (isinstance(value, int) or isinstance(value, float)):
             raise Exception(f'{name} must be a numeric value')
 
@@ -1325,7 +1326,7 @@ class FoxRGB(FoxColor):
         h, s, l = self._to_hsl()
         return FoxHSL(h, s, l, self._a)
 
-    def to_hsv(self) -> FoxHSV:
+    def to_hsv(self) -> 'FoxHSV':
         h, s, v = self._to_hsv()
         return FoxHSV(h, s, v, self._a)
 
