@@ -4,6 +4,9 @@ BUILD_DIR   := "build"
 PROJECT_ZIP := "$(BUILD_DIR)/color-picker-$(OPT_VERSION)-project.zip"
 SLIM_ZIP    := "$(BUILD_DIR)/color-picker-$(OPT_VERSION)-slim.zip"
 
+RENPY_VERSION := 8.3.7
+RENPY_COMMAND := /opt/renpy/$(RENPY_VERSION)/renpy.sh
+
 .PHONY: default
 default:
 	@echo "What are you doing?"
@@ -70,14 +73,14 @@ build-distributions: $(BUILD_DIR)/lib-color-picker-$(OPT_VERSION)-linux.tar.bz2 
 
 $(BUILD_DIR)/lib-color-picker-$(OPT_VERSION)-linux.tar.bz2: clean
 	@mkdir -p $(BUILD_DIR)
-	@renpy-8.1.1 /opt/renpy/8.1.1/launcher distribute . --package=linux --dest=$(BUILD_DIR)
+	@$(RENPY_COMMAND) /opt/renpy/$(RENPY_VERSION)/launcher distribute . --package=linux --dest=$(BUILD_DIR)
 
 
 $(BUILD_DIR)/lib-color-picker-$(OPT_VERSION)-pc.zip: clean
 	@mkdir -p $(BUILD_DIR)
-	@renpy-8.1.1 /opt/renpy/8.1.1/launcher distribute . --package=pc --dest=$(BUILD_DIR)
+	@$(RENPY_COMMAND) /opt/renpy/$(RENPY_VERSION)/launcher distribute . --package=pc --dest=$(BUILD_DIR)
 
 
 $(BUILD_DIR)/lib-color-picker-$(OPT_VERSION)-mac.zip: clean
 	@mkdir -p $(BUILD_DIR)
-	@renpy-8.1.1 /opt/renpy/8.1.1/launcher distribute . --package=mac --dest=$(BUILD_DIR)
+	@$(RENPY_COMMAND) /opt/renpy/$(RENPY_VERSION)/launcher distribute . --package=mac --dest=$(BUILD_DIR)
