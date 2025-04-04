@@ -27,7 +27,7 @@ from the "project" zip, updating should be done with the "slim" zip instead.
 ##  HOW TO CREDIT
 ##
 
-While creditting me is not required, it is appreciated.  If you do choose to
+While crediting me is not required, it is appreciated.  If you do choose to
 credit me, you may provide a link to my GitHub, Itch.IO page, or just call me
 Foxcapades.
 
